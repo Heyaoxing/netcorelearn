@@ -12,9 +12,9 @@ namespace webapi.Controllers
     public class ValuesController : Controller
     {
         private readonly MyConfig _myConfig;
-         public ValuesController(IOptions<MyConfig> myConfig)
+         public ValuesController(IOptionsMonitor<MyConfig> myConfig)
         {
-            _myConfig = myConfig.Value;
+            _myConfig = myConfig.CurrentValue;
         }
 
         // GET api/values

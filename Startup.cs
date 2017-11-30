@@ -26,8 +26,21 @@ namespace webapi
         public void ConfigureServices(IServiceCollection services)
         {
             //配置文件注册
-            //services.Configure<MyConfig>(Configuration.GetSection("MyConfig"));
+            services.Configure<MyConfig>(Configuration.GetSection("MyConfig"));
 
+            //使用Action配置
+            //services.Configure<MyConfig>(p =>
+            //{
+            //    p.Age = 23;
+            //    p.Name = "王大椎";
+            //});
+
+            //使用PostConfigure方法配置 PostConfigure 方法在 Configure 方法之后执行，是2.0中新增加的
+            //services.PostConfigure<MyConfig>(p =>
+            //{
+            //    p.Age = 23;
+            //    p.Name = "王大椎";
+            //});
 
 
             services.AddMvc();
@@ -42,6 +55,7 @@ namespace webapi
             }
             app.UseStaticFiles(); //静态文件服务
 
+            //自定义中间件
             app.UseRequestLogger();
 
             //默认首页设置
@@ -51,7 +65,7 @@ namespace webapi
             //index.htm
             //index.html
             app.UseDefaultFiles();
-            
+
 
             app.UseMvc();
         }

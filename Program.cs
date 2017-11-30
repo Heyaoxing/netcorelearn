@@ -18,8 +18,8 @@ namespace webapi
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>().ConfigureAppConfiguration(p=>p.AddJsonFile("appsettings.my.json").AddJsonFile("appsettings.json"))
+            WebHost.CreateDefaultBuilder(args).UseIISIntegration()
+                .UseStartup<Startup>().ConfigureAppConfiguration(p=>p.AddJsonFile("appsettings.my.json"))
                 .Build();
     }
 }
