@@ -18,7 +18,7 @@ namespace webapi
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args).UseIISIntegration()
+            WebHost.CreateDefaultBuilder(args).UseKestrel().UseUrls("http://*:9521")
                 .UseStartup<Startup>().ConfigureAppConfiguration(p=>p.AddJsonFile("appsettings.my.json"))
                 .Build();
     }

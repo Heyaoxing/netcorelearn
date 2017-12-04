@@ -1,6 +1,5 @@
-FROM microsoft/aspnetcore:2.0
-ARG source
-WORKDIR /app
-EXPOSE 80
-COPY ${source:-obj/Docker/publish} .
+FROM microsoft/dotnet:latest
+WORKDIR /publish
+EXPOSE 9521
+COPY . /publish
 ENTRYPOINT ["dotnet", "webapi.dll"]
