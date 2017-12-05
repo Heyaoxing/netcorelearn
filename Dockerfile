@@ -1,5 +1,5 @@
 FROM microsoft/dotnet:latest
 WORKDIR /publish
 EXPOSE 9521
-COPY . /publish
+COPY . /publish 
 ENTRYPOINT ["dotnet", "webapi.dll"]
