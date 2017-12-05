@@ -1,5 +1,6 @@
 FROM microsoft/dotnet:latest
-WORKDIR /publish
+ARG source
+WORKDIR /app
 EXPOSE 9521
-COPY . /publish 
-ENTRYPOINT ["dotnet", "webapi.dll"] 
+COPY ${source:-obj/Docker/publish} .
+ENTRYPOINT ["dotnet", "webapi.dll"]
