@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace webapi.Config
-{
+{ 
     public class MyConfig
     {
         public string Name { set; get; }
