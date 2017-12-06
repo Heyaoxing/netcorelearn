@@ -2,6 +2,6 @@ FROM microsoft/dotnet:latest
 ARG source
 WORKDIR /app
 EXPOSE 9521
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]
+COPY . /app
 ENTRYPOINT ["dotnet", "webapi.dll"]
   
