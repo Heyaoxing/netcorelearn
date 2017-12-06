@@ -1,10 +1,7 @@
 FROM microsoft/dotnet:latest
-
-WORKDIR /publish
-
+ARG source
+WORKDIR /app
 EXPOSE 9521
-
-COPY ./bin/release/netcoreapp2.0/publish /publish 
-
+COPY ${source:bin/release/netcoreapp2.0/publish}  .
 ENTRYPOINT ["dotnet", "webapi.dll"]
   
