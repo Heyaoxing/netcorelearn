@@ -1,4 +1,4 @@
-FROM docker.io/microsoft/dotnet-samples:latest
+FROM docker.io/microsoft/dotnet:latest
 ARG source
 WORKDIR /app
 EXPOSE 9521
