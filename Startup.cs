@@ -45,6 +45,7 @@ namespace webapi
 
 
             services.AddMvc();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,8 +68,8 @@ namespace webapi
             //index.html
             app.UseDefaultFiles();
 
-
             app.UseMvc();
+
         }
     }
 }
