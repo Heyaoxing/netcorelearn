@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using webapi.Middleware;
 using webapi.Config;
+using Microsoft.AspNetCore.Http;
 
 namespace webapi
 {
@@ -22,7 +23,7 @@ namespace webapi
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // 配置用于应用程序内的服务,这些服务需要在接入请求管道之前先被加入 ConfigureServices 中
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -48,7 +49,7 @@ namespace webapi
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // 用于指定 ASP.NET 应用程序将如何响应每一个 HTTP 请求
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -57,8 +58,42 @@ namespace webapi
             }
             app.UseStaticFiles(); //静态文件服务
 
+
+            //当使用了 Map，每个请求所匹配的路径段将从 HttpRequest.Path 中移除，并附加到 HttpRequest.PathBase 中
+            //app.Map("/test", (context) =>
+            // {
+            //     context.Run(async c =>
+            //     {
+            //         await c.Response.WriteAsync("map path!");
+            //     });
+            // });
+
+            //app.Use(async (context, next) =>
+            //{
+            //    await context.Response.WriteAsync("Hello world step1\n");
+            //    await next.Invoke();
+            //    await context.Response.WriteAsync("Hello world step1 Return\n");
+            //});
+
+            //app.Use(async (context, next) =>
+            //{
+            //    await context.Response.WriteAsync("Hello world step2\n");
+            //    await next.Invoke();
+            //    await context.Response.WriteAsync("Hello world step2 Return\n");
+            //});
+
+            //app.Run(async context =>
+            //{
+            //    await context.Response.WriteAsync("Hello, World Over!\n");//手工高亮
+            //});
+
+
+
+
             //自定义中间件
             app.UseRequestLogger();
+            app.UseMyMiddleware();
+
 
             //默认首页设置
             //请求文件夹的时候将检索以下文件：

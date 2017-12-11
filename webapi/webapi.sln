@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webapi", "webapi.csproj", "
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EF97C5BF-E03F-4545-8CCF-19417FEB44AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xunitnetcore", "xunitnetcore\xunitnetcore.csproj", "{8805EEE5-A849-4BF0-9744-18132A1A457B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{EF97C5BF-E03F-4545-8CCF-19417FEB44AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF97C5BF-E03F-4545-8CCF-19417FEB44AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF97C5BF-E03F-4545-8CCF-19417FEB44AE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8805EEE5-A849-4BF0-9744-18132A1A457B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8805EEE5-A849-4BF0-9744-18132A1A457B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8805EEE5-A849-4BF0-9744-18132A1A457B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8805EEE5-A849-4BF0-9744-18132A1A457B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
