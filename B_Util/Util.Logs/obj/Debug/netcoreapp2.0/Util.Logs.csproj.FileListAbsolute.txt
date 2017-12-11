@@ -1,0 +1,6 @@
+F:\git\netcorelearn\B_Util\Util.Logs\bin\Debug\netcoreapp2.0\Util.Logs.deps.json
+F:\git\netcorelearn\B_Util\Util.Logs\bin\Debug\netcoreapp2.0\Util.Logs.dll
+F:\git\netcorelearn\B_Util\Util.Logs\obj\Debug\netcoreapp2.0\Util.Logs.csprojResolveAssemblyReference.cache
+F:\git\netcorelearn\B_Util\Util.Logs\obj\Debug\netcoreapp2.0\Util.Logs.csproj.CoreCompileInputs.cache
+F:\git\netcorelearn\B_Util\Util.Logs\obj\Debug\netcoreapp2.0\Util.Logs.AssemblyInfoInputs.cache
+F:\git\netcorelearn\B_Util\Util.Logs\obj\Debug\netcoreapp2.0\Util.Logs.AssemblyInfo.cs
