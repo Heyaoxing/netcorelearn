@@ -28,10 +28,47 @@ namespace Core.Uitl.Log.Implement
             Context = context;
         }
 
-        //private LogContextInfo GetInfo()
-        //{
 
-        //}
+
+        private LogContextInfo GetInfo()
+        {
+
+        }
+
+        /// <summary>
+        /// 创建日志上下文信息
+        /// </summary>
+        protected virtual LogContextInfo CreateInfo()
+        {
+            return new LogContextInfo
+            {
+                TraceId = GetTraceId(),
+                Stopwatch = GetStopwatch(),
+                Ip = Web.Ip,
+                Host = Web.Host,
+                Browser = Web.Browser,
+                Url = Web.Url
+            };
+        }
+
+        /// <summary>
+        /// 获取跟踪号
+        /// </summary>
+        protected string GetTraceId()
+        {
+            var traceId = Context.TraceId;
+            return string.IsNullOrWhiteSpace(traceId) ? Guid.NewGuid().ToString() : traceId;
+        }
+
+        /// <summary>
+        /// 获取计时器
+        /// </summary>
+        protected Stopwatch GetStopwatch()
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            return stopwatch;
+        }
 
         public string TraceId => throw new NotImplementedException();
 
