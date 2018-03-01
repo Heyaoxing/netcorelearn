@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using webapi.Middleware;
 using webapi.Config;
 using Microsoft.AspNetCore.Http;
+using App.Metrics;
 
 namespace webapi
 {
@@ -29,6 +30,49 @@ namespace webapi
 
             //配置文件注册
             services.Configure<MyConfig>(Configuration.GetSection("MyConfig"));
+
+            #region Metrics监控配置
+            string IsOpen = Configuration.GetSection("InfluxDB")["IsOpen"].ToLower();
+            if (IsOpen == "true")
+            {
+                string database = Configuration.GetSection("InfluxDB")["DataBaseName"];
+                string InfluxDBConStr = Configuration.GetSection("InfluxDB")["ConnectionString"];
+                string app = Configuration.GetSection("InfluxDB")["app"];
+                string env = Configuration.GetSection("InfluxDB")["env"];
+                string username = Configuration.GetSection("InfluxDB")["username"];
+                string password = Configuration.GetSection("InfluxDB")["password"];
+
+                var uri = new Uri(InfluxDBConStr);
+
+                var metrics = AppMetrics.CreateDefaultBuilder()
+                .Configuration.Configure(
+                options =>
+                {
+                    options.AddAppTag(app);
+                    options.AddEnvTag(env);
+                })
+                .Report.ToInfluxDb(
+                options =>
+                {
+                    options.InfluxDb.BaseUri = uri;
+                    options.InfluxDb.Database = database;
+                    options.InfluxDb.UserName = username;
+                    options.InfluxDb.Password = password;
+                    options.HttpPolicy.BackoffPeriod = TimeSpan.FromSeconds(30);
+                    options.HttpPolicy.FailuresBeforeBackoff = 5;
+                    options.HttpPolicy.Timeout = TimeSpan.FromSeconds(10);
+                    options.FlushInterval = TimeSpan.FromSeconds(5);
+                })
+                .Build();
+
+                services.AddMetrics(metrics);
+                services.AddMetricsReportScheduler();
+                services.AddMetricsTrackingMiddleware();
+                services.AddMetricsEndpoints();
+
+            }
+            #endregion
+
 
             //使用Action配置
             //services.Configure<MyConfig>(p =>
@@ -50,14 +94,35 @@ namespace webapi
         }
 
         // 用于指定 ASP.NET 应用程序将如何响应每一个 HTTP 请求
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime lifetime)
         {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles(); //静态文件服务
 
+            #region 注入Metrics
+            string IsOpen = Configuration.GetSection("InfluxDB")["IsOpen"].ToLower();
+            if (IsOpen == "true")
+            {
+                app.UseMetricsAllMiddleware();
+                // Or to cherry-pick the tracking of interest
+                app.UseMetricsActiveRequestMiddleware();
+                app.UseMetricsErrorTrackingMiddleware();
+                app.UseMetricsPostAndPutSizeTrackingMiddleware();
+                app.UseMetricsRequestTrackingMiddleware();
+                app.UseMetricsOAuth2TrackingMiddleware();
+                app.UseMetricsApdexTrackingMiddleware();
+
+                app.UseMetricsAllEndpoints();
+                // Or to cherry-pick endpoint of interest
+                app.UseMetricsEndpoint();
+                app.UseMetricsTextEndpoint();
+                app.UseEnvInfoEndpoint();
+            }
+            #endregion
 
             //当使用了 Map，每个请求所匹配的路径段将从 HttpRequest.Path 中移除，并附加到 HttpRequest.PathBase 中
             //app.Map("/test", (context) =>
@@ -91,8 +156,8 @@ namespace webapi
 
 
             //自定义中间件
-            app.UseRequestLogger();
-            app.UseMyMiddleware();
+            //app.UseRequestLogger();
+            //app.UseMyMiddleware();
 
 
             //默认首页设置
